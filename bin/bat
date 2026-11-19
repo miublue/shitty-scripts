@@ -1,0 +1,4 @@
+#!/bin/sh
+b="$(cat /sys/class/power_supply/BAT0/capacity)"
+s="$(cat /sys/class/power_supply/BAT0/status)"
+printf "%s%% %s\n" "$b" "$s"

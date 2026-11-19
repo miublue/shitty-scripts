@@ -1,0 +1,20 @@
+#!/bin/sh
+
+if [ -z "$1" ]; then
+    v="$(amixer get Master 2> /dev/null | grep 'Left: ')"
+    s="$(echo $v | awk '{printf "%s",$6;}')"
+    [ "$s" = "[on]" ] && s="On" || s="Off"
+    n="$(echo $v | awk '{printf "%s",$5;}' | sed 's/\[\(.*\)\]/\1/')"
+    [ -z "$n" ] && v="0%" || v="$n"
+    printf "%s %s\n" "$v" "$s"
+    exit
+fi
+
+case "$1" in
+    m|t|mute|toggle)
+        amixer sset Master toggle
+    ;;
+    *)
+        amixer sset Master $1
+    ;;
+esac

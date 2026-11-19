@@ -1,0 +1,21 @@
+#!/bin/env merda
+import("common.mr")
+
+if len(args) < 2 {
+    write("error: missing input files\n")
+    exit(1)
+}
+
+func count(lines) {
+    n = i = 0
+    while (i = i + 1) < len(lines)
+        if lines[i-1] n = n + 1
+    return n
+}
+
+total = i = 0
+while (i = i + 1) < len(args) {
+    total = total + lines = count(split(read_file(args[i]), "\n"))
+    write(" -> counted \e[1;31m", lines, "\e[0m lines in file '\e[1;32m", args[i], "\e[0m'\n")
+}
+write("\e[1;31mcounted ", total, " lines in total\e[0m\n")

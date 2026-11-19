@@ -1,0 +1,11 @@
+#!/bin/sh
+
+case "$1" in
+    1|p|per|percent|percentage)
+        free | awk '/Mem:/ {printf "%.1f%%\n", $3/$2*100}'
+    ;;
+    *)
+        free --si -h | grep 'Mem:' | awk '{printf "%s/%s\n",$3,$2;}'
+    ;;
+esac
+

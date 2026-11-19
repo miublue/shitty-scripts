@@ -1,0 +1,15 @@
+#!/bin/env merda
+import("common.mr")
+
+if len(args) < 2 {
+    write("error: missing input files\n")
+    exit(1)
+}
+
+total = i = 0
+while (i = i + 1) < len(args) {
+    num_semicolons = len(split(read_file(args[i]), ";"))-1
+    total = total + num_semicolons
+    write(" -> counted \e[1;31m", num_semicolons, "\e[0m semicolons in file '\e[1;32m", args[i], "\e[0m'\n")
+}
+write("\e[1;31mcounted ", total, " semicolons in total\e[0m\n")

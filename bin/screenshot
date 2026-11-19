@@ -1,0 +1,6 @@
+#!/bin/sh
+OUTPUT_DIR="$HOME/media/captures"
+case "$1" in
+    "area") shotgun -o "$OUTPUT_DIR" -g $(hacksaw);;
+    *) shotgun -o "$OUTPUT_DIR";;
+esac

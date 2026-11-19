@@ -1,0 +1,3 @@
+#!/bin/sh
+kbds="us\nbr\nru"
+setxkbmap $(echo $kbds | dmenu -c -l 12 -h 50 -p ' Keyboard ')

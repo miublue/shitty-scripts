@@ -1,0 +1,7 @@
+#!/bin/sh
+if [ ! -z "$1" ]; then
+    brightnessctl set $1
+    exit
+fi
+
+brightnessctl -m | sed "y|,| |" | awk '{printf "%s\n",$4;}'
