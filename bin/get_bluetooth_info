@@ -1,0 +1,8 @@
+#!/bin/sh
+
+bluetoothctl devices Connected | cut -f2 -d' ' | while read uuid; do
+    dev="$(bluetoothctl info $uuid)"
+    name="$(echo "$dev" | grep -e 'Alias:' | cut -f2 -d':' | tail -c +2)"
+    bat="$(echo "$dev" | grep -e 'Battery Percentage:' | cut -f4 -d' ' | sed 's/(\(.*\))/\1/')"
+    printf "%s %s%%\n" "$name" "$bat"
+done
