@@ -1,9 +1,29 @@
 #!/bin/sh
 
+# i got some weird ass sound card on this goofy ass chinese ass laptop
+
+if [ -z "$(get_bluetooth_info)" ]; then
+    getcmd() {
+        amixer -c 1 get PCM
+    }
+
+    setcmd() {
+        amixer -c 1 set PCM $@
+    }
+else
+    getcmd() {
+        amixer get Master
+    }
+
+    setcmd() {
+        amixer set Master $@
+    }
+fi
+
 if [ -z "$1" ]; then
-    v="$(amixer get Master 2> /dev/null | grep 'Left: ')"
-    s="$(echo $v | awk '{printf "%s",$6;}')"
-    [ "$s" = "[on]" ] && s="On" || s="Off"
+    v="$(getcmd 2> /dev/null | grep 'Left: ')"
+    s="$(echo $v | grep '\[off\]')"
+    [ -z "$s" ] && s="On" || s="Off"
     n="$(echo $v | awk '{printf "%s",$5;}' | sed 's/\[\(.*\)\]/\1/')"
     [ -z "$n" ] && v="0%" || v="$n"
     printf "%s %s\n" "$v" "$s"
@@ -12,9 +32,9 @@ fi
 
 case "$1" in
     m|t|mute|toggle)
-        amixer sset Master toggle
+        setcmd toggle
     ;;
     *)
-        amixer sset Master $1
+        setcmd $1
     ;;
 esac
